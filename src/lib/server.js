@@ -69,50 +69,62 @@ server.tool(
         options: browserOptionsSchema // Опции браузера
     },
     async ({ browser, options = {} }) => {
+        console.log(`Запуск start_browser с browser: ${browser} и options: ${JSON.stringify(options)}`);
         try {
             let builder = new Builder(); // Создание билдера драйвера
             let driver;
+            console.log(`Выбран браузер: ${browser}`);
             switch (browser) {
                 case 'chrome': {
                     const chromeOptions = new ChromeOptions();
                     if (options.headless) {
                         chromeOptions.addArguments('--headless=new'); // Добавление аргумента для безголового режима Chrome
+                        console.log('Запуск Chrome в headless режиме');
                     }
                     if (options.arguments) {
                         options.arguments.forEach(arg => chromeOptions.addArguments(arg)); // Добавление пользовательских аргументов
+                        console.log(`Добавлены аргументы Chrome: ${options.arguments.join(', ')}`);
                     }
                     driver = await builder
                         .forBrowser('chrome')
                         .setChromeOptions(chromeOptions)
                         .build(); // Сборка драйвера Chrome
+                    console.log('Драйвер Chrome успешно собран');
                     break;
                 }
                 case 'edge': {
                     const edgeOptions = new EdgeOptions();
                     if (options.headless) {
                         edgeOptions.addArguments('--headless=new'); // Добавление аргумента для безголового режима Edge
+                        console.log('Запуск Edge в headless режиме');
                     }
                     if (options.arguments) {
                         options.arguments.forEach(arg => edgeOptions.addArguments(arg)); // Добавление пользовательских аргументов
+                         console.log(`Добавлены аргументы Edge: ${options.arguments.join(', ')}`);
                     }
                     driver = await builder
                         .forBrowser('edge')
                         .setEdgeOptions(edgeOptions)
                         .build(); // Сборка драйвера Edge
+                     console.log('Драйвер Edge успешно собран');
                     break;
                 }
                 case 'firefox': {
                     const firefoxOptions = new FirefoxOptions();
                     if (options.headless) {
                         firefoxOptions.addArguments('--headless'); // Добавление аргумента для безголового режима Firefox
+                        console.log('Запуск Firefox в headless режиме');
                     }
                     if (options.arguments) {
+                        firefoxOptions.addArguments(arg); // Добавление пользовательских аргументов
                         options.arguments.forEach(arg => firefoxOptions.addArguments(arg)); // Добавление пользовательских аргументов
+                        console.log(`Добавлены аргументы Firefox: ${options.arguments.join(', ')}`);
                     }
                     driver = await builder
                         .forBrowser('firefox')
                         .setFirefoxOptions(firefoxOptions)
                         .build(); // Сборка драйвера Firefox
+                    console.log('Драйвер Firefox успешно собран');
                     break;
                 }
                 default: {
@@ -122,14 +134,18 @@ server.tool(
             const sessionId = `${browser}_${Date.now()}`; // Генерация ID сессии
             state.drivers.set(sessionId, driver);      // Сохранение драйвера в состоянии
             state.currentSession = sessionId;          // Установка текущей сессии
+             console.log(`Браузер запущен с session_id: ${sessionId}`);
 
             return {
                 content: [{ type: 'text', text: `Browser started with session_id: ${sessionId}` }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при запуске браузера: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error starting browser: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение start_browser');
         }
     }
 );
@@ -141,16 +157,21 @@ server.tool(
         url: z.string().describe("URL to navigate to") // URL для перехода
     },
     async ({ url }) => {
+        console.log(`Запуск navigate с url: ${url}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
+            console.log(`Переход по URL: ${url}`);
             await driver.get(url);     // Переход по URL
             return {
                 content: [{ type: 'text', text: `Navigated to ${url}` }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при переходе по URL: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error navigating: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение navigate');
         }
     }
 );
@@ -163,17 +184,22 @@ server.tool(
         ...locatorSchema // Использование схемы локатора
     },
     async ({ by, value, timeout = 10000 }) => {
+        console.log(`Запуск find_element с by: ${by}, value: ${value} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
+            console.log(`Ожидание появления элемента с локатором: ${locator}`);
             await driver.wait(until.elementLocated(locator), timeout); // Ожидание появления элемента
             return {
                 content: [{ type: 'text', text: 'Element found' }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при поиске элемента: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error finding element: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение find_element');
         }
     }
 );
@@ -185,18 +211,23 @@ server.tool(
         ...locatorSchema // Использование схемы локатора
     },
     async ({ by, value, timeout = 10000 }) => {
+        console.log(`Запуск click_element с by: ${by}, value: ${value} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
             const element = await driver.wait(until.elementLocated(locator), timeout); // Ожидание и поиск элемента
+            console.log(`Нажатие на элемент с локатором: ${locator}`);
             await element.click(); // Нажатие на элемент
             return {
                 content: [{ type: 'text', text: 'Element clicked' }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при нажатии на элемент: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error clicking element: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение click_element');
         }
     }
 );
@@ -209,19 +240,25 @@ server.tool(
         text: z.string().describe("Text to enter into the element") // Текст для ввода
     },
     async ({ by, value, text, timeout = 10000 }) => {
+         console.log(`Запуск send_keys с by: ${by}, value: ${value}, text: ${text} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
             const element = await driver.wait(until.elementLocated(locator), timeout); // Ожидание и поиск элемента
+            console.log('Очистка поля ввода');
             await element.clear();   // Очистка поля ввода
+            console.log(`Ввод текста "${text}" в элемент`);
             await element.sendKeys(text); // Ввод текста
             return {
                 content: [{ type: 'text', text: `Text "${text}" entered into element` }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при вводе текста: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error entering text: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение send_keys');
         }
     }
 );
@@ -233,18 +270,23 @@ server.tool(
         ...locatorSchema // Использование схемы локатора
     },
     async ({ by, value, timeout = 10000 }) => {
+        console.log(`Запуск get_element_text с by: ${by}, value: ${value} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
             const element = await driver.wait(until.elementLocated(locator), timeout); // Ожидание и поиск элемента
+            console.log(`Получение текста элемента с локатором: ${locator}`);
             const text = await element.getText(); // Получение текста элемента
             return {
                 content: [{ type: 'text', text }] // Успешный ответ с текстом
             };
         } catch (e) {
+            console.error(`Ошибка при получении текста элемента: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error getting element text: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение get_element_text');
         }
     }
 );
@@ -256,19 +298,24 @@ server.tool(
         ...locatorSchema // Использование схемы локатора
     },
     async ({ by, value, timeout = 10000 }) => {
+        console.log(`Запуск hover с by: ${by}, value: ${value} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
             const element = await driver.wait(until.elementLocated(locator), timeout); // Ожидание и поиск элемента
             const actions = driver.actions({ bridge: true }); // Создание объекта действий
+            console.log(`Наведение мыши на элемент с локатором: ${locator}`);
             await actions.move({ origin: element }).perform(); // Наведение мыши на элемент
             return {
                 content: [{ type: 'text', text: 'Hovered over element' }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при наведении мыши на элемент: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error hovering over element: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение hover');
         }
     }
 );
@@ -282,6 +329,7 @@ server.tool(
         targetValue: z.string().describe("Value for the target locator strategy") // Значение локатора для целевого элемента
     },
     async ({ by, value, targetBy, targetValue, timeout = 10000 }) => {
+         console.log(`Запуск drag_and_drop с by: ${by}, value: ${value}, targetBy: ${targetBy}, targetValue: ${targetValue} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const sourceLocator = getLocator(by, value); // Локатор исходного элемента
@@ -289,14 +337,18 @@ server.tool(
             const sourceElement = await driver.wait(until.elementLocated(sourceLocator), timeout); // Поиск исходного элемента
             const targetElement = await driver.wait(until.elementLocated(targetLocator), timeout); // Поиск целевого элемента
             const actions = driver.actions({ bridge: true }); // Создание объекта действий
+            console.log('Выполнение перетаскивания элемента');
             await actions.dragAndDrop(sourceElement, targetElement).perform(); // Выполнение перетаскивания
             return {
                 content: [{ type: 'text', text: 'Drag and drop completed' }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при выполнении перетаскивания: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error performing drag and drop: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение drag_and_drop');
         }
     }
 );
@@ -308,19 +360,24 @@ server.tool(
         ...locatorSchema // Использование схемы локатора
     },
     async ({ by, value, timeout = 10000 }) => {
+        console.log(`Запуск double_click с by: ${by}, value: ${value} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
             const element = await driver.wait(until.elementLocated(locator), timeout); // Ожидание и поиск элемента
             const actions = driver.actions({ bridge: true }); // Создание объекта действий
+            console.log(`Выполнение двойного щелчка на элементе с локатором: ${locator}`);
             await actions.doubleClick(element).perform(); // Выполнение двойного щелчка
             return {
                 content: [{ type: 'text', text: 'Double click performed' }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при выполнении двойного щелчка: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error performing double click: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение double_click');
         }
     }
 );
@@ -332,19 +389,24 @@ server.tool(
         ...locatorSchema // Использование схемы локатора
     },
     async ({ by, value, timeout = 10000 }) => {
+         console.log(`Запуск right_click с by: ${by}, value: ${value} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
             const element = await driver.wait(until.elementLocated(locator), timeout); // Ожидание и поиск элемента
             const actions = driver.actions({ bridge: true }); // Создание объекта действий
+            console.log(`Выполнение правого щелчка на элементе с локатором: ${locator}`);
             await actions.contextClick(element).perform(); // Выполнение правого щелчка
             return {
                 content: [{ type: 'text', text: 'Right click performed' }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при выполнении правого щелчка: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error performing right click: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение right_click');
         }
     }
 );
@@ -356,17 +418,22 @@ server.tool(
         key: z.string().describe("Key to press (e.g., 'Enter', 'Tab', 'a', etc.)") // Клавиша для нажатия
     },
     async ({ key }) => {
+        console.log(`Запуск press_key с key: ${key}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const actions = driver.actions({ bridge: true }); // Создание объекта действий
+            console.log(`Нажатие клавиши: ${key}`);
             await actions.keyDown(key).keyUp(key).perform(); // Нажатие и отпускание клавиши
             return {
                 content: [{ type: 'text', text: `Key '${key}' pressed` }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при нажатии клавиши: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error pressing key: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение press_key');
         }
     }
 );
@@ -379,18 +446,23 @@ server.tool(
         filePath: z.string().describe("Absolute path to the file to upload") // Абсолютный путь к файлу
     },
     async ({ by, value, filePath, timeout = 10000 }) => {
+        console.log(`Запуск upload_file с by: ${by}, value: ${value}, filePath: ${filePath} и timeout: ${timeout}`);
         try {
             const driver = getDriver(); // Получение активного драйвера
             const locator = getLocator(by, value); // Получение локатора
             const element = await driver.wait(until.elementLocated(locator), timeout); // Ожидание и поиск элемента
+            console.log(`Отправка пути к файлу ${filePath} в элемент с локатором: ${locator}`);
             await element.sendKeys(filePath); // Отправка пути к файлу в элемент ввода файла
             return {
                 content: [{ type: 'text', text: 'File upload initiated' }] // Успешный ответ
             };
         } catch (e) {
+            console.error(`Ошибка при загрузке файла: ${e.message}`);
             return {
                 content: [{ type: 'text', text: `Error uploading file: ${e.message}` }] // Ответ с ошибкой
             };
+        } finally {
+            console.log('Завершение upload_file');
         }
     }
 );
