@@ -1,49 +1,49 @@
-[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/angiejones-mcp-selenium-badge.png)](https://mseep.ai/app/angiejones-mcp-selenium)
+[![Значок оценки безопасности MseeP.ai](https://mseep.net/pr/angiejones-mcp-selenium-badge.png)](https://mseep.ai/app/angiejones-mcp-selenium)
 
-# MCP Selenium Server
+# Сервер MCP Selenium
 
-A Model Context Protocol (MCP) server implementation for Selenium WebDriver, enabling browser automation through standardized MCP clients.
+Реализация сервера Model Context Protocol (MCP) для Selenium WebDriver, обеспечивающая автоматизацию браузера через стандартизированные MCP-клиенты.
 
-## Video Demo (Click to Watch)
+## Видео-демонстрация (нажмите для просмотра)
 
-[![Watch the video](https://img.youtube.com/vi/mRV0N8hcgYA/sddefault.jpg)](https://youtu.be/mRV0N8hcgYA)
+[![Посмотреть видео](https://img.youtube.com/vi/mRV0N8hcgYA/sddefault.jpg)](https://youtu.be/mRV0N8hcgYA)
 
 
-## Features
+## Функции
 
-- Start browser sessions with customizable options
-- Navigate to URLs
-- Find elements using various locator strategies
-- Click, type, and interact with elements
-- Perform mouse actions (hover, drag and drop)
-- Handle keyboard input
-- Take screenshots
-- Upload files
-- Support for headless mode
+- Запуск сессий браузера с настраиваемыми параметрами
+- Переход по URL-адресам
+- Поиск элементов с использованием различных стратегий локаторов
+- Нажатие, ввод текста и взаимодействие с элементами
+- Выполнение действий мыши (наведение, перетаскивание)
+- Обработка ввода с клавиатуры
+- Создание скриншотов
+- Загрузка файлов
+- Поддержка безголового режима (headless mode)
 
-## Supported Browsers
+## Поддерживаемые браузеры
 
 - Chrome
 - Firefox
 - MS Edge
 
-## Use with Goose
+## Использование с Goose
 
-### Option 1: One-click install
-Copy and paste the link below into a browser address bar to add this extension to goose desktop:
+### Вариант 1: Установка в один клик
+Скопируйте и вставьте ссылку ниже в адресную строку браузера, чтобы добавить это расширение в Goose Desktop:
 
 ```
 goose://extension?cmd=npx&arg=-y&arg=%40angiejones%2Fmcp-selenium&id=selenium-mcp&name=Selenium%20MCP&description=automates%20browser%20interactions
 ```
 
 
-### Option 2: Add manually to desktop or CLI
+### Вариант 2: Добавление вручную на рабочий стол или в CLI
 
-* Name: `Selenium MCP`
-* Description: `automates browser interactions`
-* Command: `npx -y @angiejones/mcp-selenium`
+* Имя: `Selenium MCP`
+* Описание: `автоматизирует взаимодействие с браузером`
+* Команда: `npx -y @angiejones/mcp-selenium`
 
-## Use with other MCP clients (e.g. Claude Desktop, etc)
+## Использование с другими MCP-клиентами (например, Claude Desktop и т. д.)
 ```json
 {
   "mcpServers": {
@@ -57,39 +57,39 @@ goose://extension?cmd=npx&arg=-y&arg=%40angiejones%2Fmcp-selenium&id=selenium-mc
 
 ---
 
-## Development
+## Разработка
 
-To work on this project:
+Для работы над этим проектом:
 
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Run the server: `npm start`
+1. Клонируйте репозиторий
+2. Установите зависимости: `npm install`
+3. Запустите сервер: `npm start`
 
-### Installation
+### Установка
 
-#### Installing via Smithery
+#### Установка через Smithery
 
-To install MCP Selenium for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@angiejones/mcp-selenium):
+Для автоматической установки MCP Selenium для Claude Desktop через [Smithery](https://smithery.ai/server/@angiejones/mcp-selenium):
 
 ```bash
 npx -y @smithery/cli install @angiejones/mcp-selenium --client claude
 ```
 
-#### Manual Installation
+#### Ручная установка
 ```bash
 npm install -g @angiejones/mcp-selenium
 ```
 
 
-### Usage
+### Использование
 
-Start the server by running:
+Запустите сервер, выполнив:
 
 ```bash
 mcp-selenium
 ```
 
-Or use with NPX in your MCP configuration:
+Или используйте с NPX в вашей конфигурации MCP:
 
 ```json
 {
@@ -107,24 +107,24 @@ Or use with NPX in your MCP configuration:
 
 
 
-## Tools
+## Инструменты
 
 ### start_browser
-Launches a browser session.
+Запускает сессию браузера.
 
-**Parameters:**
-- `browser` (required): Browser to launch
-  - Type: string
-  - Enum: ["chrome", "firefox"]
-- `options`: Browser configuration options
-  - Type: object
-  - Properties:
-    - `headless`: Run browser in headless mode
-      - Type: boolean
-    - `arguments`: Additional browser arguments
-      - Type: array of strings
+**Параметры:**
+- `browser` (обязательно): Браузер для запуска
+  - Тип: строка
+  - Перечисление: ["chrome", "firefox"]
+- `options`: Параметры конфигурации браузера
+  - Тип: объект
+  - Свойства:
+    - `headless`: Запустить браузер в безголовом режиме
+      - Тип: логический
+    - `arguments`: Дополнительные аргументы браузера
+      - Тип: массив строк
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "start_browser",
@@ -139,13 +139,13 @@ Launches a browser session.
 ```
 
 ### navigate
-Navigates to a URL.
+Переходит по URL-адресу.
 
-**Parameters:**
-- `url` (required): URL to navigate to
-  - Type: string
+**Параметры:**
+- `url` (обязательно): URL для перехода
+  - Тип: строка
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "navigate",
@@ -156,19 +156,19 @@ Navigates to a URL.
 ```
 
 ### find_element
-Finds an element on the page.
+Находит элемент на странице.
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "find_element",
@@ -181,19 +181,19 @@ Finds an element on the page.
 ```
 
 ### click_element
-Clicks an element.
+Нажимает на элемент.
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "click_element",
@@ -205,21 +205,21 @@ Clicks an element.
 ```
 
 ### send_keys
-Sends keys to an element (typing).
+Отправляет клавиши элементу (ввод текста).
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `text` (required): Text to enter into the element
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `text` (обязательно): Текст для ввода в элемент
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "send_keys",
@@ -232,19 +232,19 @@ Sends keys to an element (typing).
 ```
 
 ### get_element_text
-Gets the text() of an element.
+Получает текстовое содержимое элемента.
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "get_element_text",
@@ -256,19 +256,19 @@ Gets the text() of an element.
 ```
 
 ### hover
-Moves the mouse to hover over an element.
+Перемещает курсор мыши для наведения на элемент.
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "hover",
@@ -280,24 +280,24 @@ Moves the mouse to hover over an element.
 ```
 
 ### drag_and_drop
-Drags an element and drops it onto another element.
+Перетаскивает элемент и отпускает его на другом элементе.
 
-**Parameters:**
-- `by` (required): Locator strategy for source element
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the source locator strategy
-  - Type: string
-- `targetBy` (required): Locator strategy for target element
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `targetValue` (required): Value for the target locator strategy
-  - Type: string
-- `timeout`: Maximum time to wait for elements in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора для исходного элемента
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии исходного локатора
+  - Тип: строка
+- `targetBy` (обязательно): Стратегия локатора для целевого элемента
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `targetValue` (обязательно): Значение для стратегии целевого локатора
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элементов в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "drag_and_drop",
@@ -311,19 +311,19 @@ Drags an element and drops it onto another element.
 ```
 
 ### double_click
-Performs a double click on an element.
+Выполняет двойной щелчок по элементу.
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "double_click",
@@ -335,19 +335,19 @@ Performs a double click on an element.
 ```
 
 ### right_click
-Performs a right click (context click) on an element.
+Выполняет щелчок правой кнопкой мыши (контекстный щелчок) по элементу.
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "right_click",
@@ -359,13 +359,13 @@ Performs a right click (context click) on an element.
 ```
 
 ### press_key
-Simulates pressing a keyboard key.
+Имитирует нажатие клавиши клавиатуры.
 
-**Parameters:**
-- `key` (required): Key to press (e.g., 'Enter', 'Tab', 'a', etc.)
-  - Type: string
+**Параметры:**
+- `key` (обязательно): Клавиша для нажатия (например, 'Enter', 'Tab', 'a' и т. д.)
+  - Тип: строка
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "press_key",
@@ -376,21 +376,21 @@ Simulates pressing a keyboard key.
 ```
 
 ### upload_file
-Uploads a file using a file input element.
+Загружает файл с помощью элемента ввода файла.
 
-**Parameters:**
-- `by` (required): Locator strategy
-  - Type: string
-  - Enum: ["id", "css", "xpath", "name", "tag", "class"]
-- `value` (required): Value for the locator strategy
-  - Type: string
-- `filePath` (required): Absolute path to the file to upload
-  - Type: string
-- `timeout`: Maximum time to wait for element in milliseconds
-  - Type: number
-  - Default: 10000
+**Параметры:**
+- `by` (обязательно): Стратегия локатора
+  - Тип: строка
+  - Перечисление: ["id", "css", "xpath", "name", "tag", "class"]
+- `value` (обязательно): Значение для стратегии локатора
+  - Тип: строка
+- `filePath` (обязательно): Абсолютный путь к файлу для загрузки
+  - Тип: строка
+- `timeout`: Максимальное время ожидания элемента в миллисекундах
+  - Тип: число
+  - По умолчанию: 10000
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "upload_file",
@@ -403,13 +403,13 @@ Uploads a file using a file input element.
 ```
 
 ### take_screenshot
-Captures a screenshot of the current page.
+Делает скриншот текущей страницы.
 
-**Parameters:**
-- `outputPath` (optional): Path where to save the screenshot. If not provided, returns base64 data.
-  - Type: string
+**Параметры:**
+- `outputPath` (необязательно): Путь для сохранения скриншота. Если не указан, возвращает данные в формате base64.
+  - Тип: строка
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "take_screenshot",
@@ -420,12 +420,12 @@ Captures a screenshot of the current page.
 ```
 
 ### close_session
-Closes the current browser session and cleans up resources.
+Закрывает текущую сессию браузера и очищает ресурсы.
 
-**Parameters:**
-None required
+**Параметры:**
+Не требуются
 
-**Example:**
+**Пример:**
 ```json
 {
   "tool": "close_session",
@@ -474,4 +474,3 @@ $env:Path += ";D:\PROG\chromedriver"
 chromedriver --version
 # ответ
 ChromeDriver 142.0.7444.175 (302067f14a4ea3f42001580e6101fa25ed343445-refs/branch-heads/7444@{#2749})
-```
